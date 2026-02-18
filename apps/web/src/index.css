@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-notion-bg text-notion-text;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white border border-notion-border rounded-lg p-4 hover:shadow-md transition-shadow;
+  }
+  
+  .btn-primary {
+    @apply bg-notion-accent text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-notion-surface text-notion-text px-4 py-2 rounded-md hover:bg-gray-200 transition-colors border border-notion-border;
+  }
+}
+
+.dark body {
+  @apply bg-[#191919] text-[#e0e0e0];
+}
+
+.dark .card {
+  @apply bg-[#2c2c2c] border-[#3f3f3f];
+}
+
+.dark .btn-secondary {
+  @apply bg-[#2c2c2c] border-[#3f3f3f] hover:bg-[#3f3f3f];
+}

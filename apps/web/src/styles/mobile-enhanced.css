@@ -1,0 +1,695 @@
+/* Enhanced Mobile Optimizations - Phase 3 */
+
+/* ============================================
+   CORE MOBILE IMPROVEMENTS
+   ============================================ */
+
+/* Better viewport handling */
+@media (max-width: 768px) {
+  :root {
+    --mobile-header-height: 60px;
+    --mobile-nav-height: 64px;
+    --mobile-padding: 1rem;
+    --mobile-gap: 0.75rem;
+  }
+  
+  /* Prevent bounce scrolling on body */
+  body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  #root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+/* ============================================
+   IMPROVED TOUCH INTERACTIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Enhanced tap targets */
+  button, a, [role="button"], [role="link"] {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Small action buttons */
+  button.btn-sm, .btn-icon {
+    min-height: 40px;
+    min-width: 40px;
+  }
+  
+  /* Extra small (icon only) */
+  .btn-xs {
+    min-height: 36px;
+    min-width: 36px;
+  }
+  
+  /* Improved active states for touch */
+  button:active, a:active {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  
+  /* Remove tap highlight on all interactive elements */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* ============================================
+   CHAT ENHANCEMENTS (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Chat panel spacing */
+  .chat-panel {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+  }
+  
+  /* Message bubbles */
+  .message-bubble {
+    max-width: 90%;
+    padding: 0.875rem 1rem;
+    font-size: 0.9375rem; /* 15px - readable on mobile */
+    line-height: 1.5;
+    word-break: break-word;
+  }
+  
+  /* Chat input */
+  .chat-input-container {
+    padding: 0.75rem;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
+    background: rgba(10, 15, 30, 0.95);
+    backdrop-filter: blur(10px);
+  }
+  
+  .chat-input {
+    font-size: 16px !important; /* Prevent iOS zoom */
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Tool call cards in chat */
+  .tool-call-card {
+    font-size: 0.8125rem;
+    padding: 0.625rem;
+  }
+  
+  /* Chat search */
+  .chat-search-panel {
+    position: fixed;
+    top: var(--mobile-header-height);
+    left: 0;
+    right: 0;
+    background: rgba(10, 15, 30, 0.98);
+    backdrop-filter: blur(16px);
+    z-index: 40;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Thread cards */
+  .thread-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .thread-card-expanded {
+    margin-bottom: 1rem;
+  }
+}
+
+/* ============================================
+   WORKFLOW BUILDER (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Workflow toolbar */
+  .workflow-toolbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+  
+  .workflow-name-input {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Node palette - horizontal scroll on mobile */
+  .node-palette {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+  
+  .node-palette-button {
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+  
+  /* Workflow canvas - make it scrollable */
+  .workflow-canvas {
+    touch-action: pan-x pan-y pinch-zoom;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Workflow nodes - larger on mobile */
+  .workflow-node {
+    width: 140px;
+    font-size: 0.875rem;
+  }
+  
+  /* Properties panel - full screen modal on mobile */
+  .properties-panel-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    background: rgba(10, 15, 30, 0.98);
+    backdrop-filter: blur(16px);
+  }
+  
+  /* Template modal - full screen */
+  .template-modal-mobile {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+  
+  .template-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* ============================================
+   TRACE & METRICS (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Trace cards - stack vertically */
+  .trace-card {
+    padding: 1rem;
+  }
+  
+  /* Trace tree - more compact */
+  .trace-tree {
+    font-size: 0.8125rem;
+  }
+  
+  .trace-span {
+    padding: 0.5rem;
+    margin-left: 0.75rem;
+  }
+  
+  /* Timeline view - horizontal scroll */
+  .trace-timeline {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem 0.5rem;
+  }
+  
+  /* Filters - collapsible on mobile */
+  .trace-filters {
+    position: fixed;
+    bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom));
+    left: 0;
+    right: 0;
+    background: rgba(10, 15, 30, 0.98);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 40;
+    max-height: 60vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .trace-filters.open {
+    transform: translateY(0);
+  }
+  
+  /* Metrics charts - stack on mobile */
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .metric-card {
+    padding: 1rem;
+  }
+  
+  /* Summary stats - 2 column grid */
+  .summary-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+/* ============================================
+   MEMORY INSPECTOR (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Memory search */
+  .memory-search {
+    padding: 0.75rem;
+  }
+  
+  .memory-search-input {
+    font-size: 16px !important;
+  }
+  
+  /* Memory cards */
+  .memory-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .memory-tier-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  /* Timeline view - vertical optimized */
+  .memory-timeline {
+    padding-left: 1.5rem;
+  }
+  
+  .memory-timeline-event {
+    padding: 0.875rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Filters modal */
+  .memory-filters-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(10, 15, 30, 0.98);
+    backdrop-filter: blur(16px);
+    padding: 1rem;
+  }
+}
+
+/* ============================================
+   POLICY EDITOR (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Policy list */
+  .policy-card {
+    padding: 1rem;
+  }
+  
+  /* Rule builder - full screen */
+  .rule-builder-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    padding: 0;
+  }
+  
+  /* Condition builder - stack fields */
+  .condition-builder {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  /* Template library grid */
+  .policy-template-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   AGENT REGISTRY (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Agent cards - more compact */
+  .agent-card {
+    padding: 0.875rem;
+  }
+  
+  .agent-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  /* Integration list */
+  .integration-item {
+    padding: 0.625rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* ============================================
+   MODALS & OVERLAYS (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* All modals go full screen on mobile */
+  .modal-overlay {
+    padding: 0;
+  }
+  
+  .modal-content {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+  }
+  
+  .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem;
+  }
+  
+  .modal-footer {
+    padding: 1rem;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+  }
+  
+  /* Drawer from bottom */
+  .drawer-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 85vh;
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .drawer-bottom.open {
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   NAVIGATION IMPROVEMENTS (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Bottom nav */
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: rgba(20, 27, 46, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .mobile-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    color: rgba(156, 163, 175, 1);
+    transition: all 0.2s;
+  }
+  
+  .mobile-nav-item.active {
+    color: rgba(59, 130, 246, 1);
+  }
+  
+  .mobile-nav-item:active {
+    transform: scale(0.95);
+  }
+  
+  .mobile-nav-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .mobile-nav-label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+  }
+}
+
+/* ============================================
+   SWIPE GESTURES
+   ============================================ */
+
+@media (max-width: 768px) {
+  .swipeable {
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .swipeable.swiping {
+    transition: none;
+  }
+  
+  /* Swipe actions (delete, archive, etc.) */
+  .swipe-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 0.5rem;
+  }
+  
+  .swipe-action-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Reduce animations on mobile */
+  * {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  /* Disable expensive effects on scroll */
+  .scrolling .backdrop-blur-xl {
+    backdrop-filter: none;
+  }
+  
+  /* Use will-change for frequently animated elements */
+  .mobile-nav-item,
+  .swipeable,
+  button:active {
+    will-change: transform;
+  }
+  
+  /* GPU acceleration */
+  .modal-content,
+  .drawer-bottom,
+  .chat-input-container {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+}
+
+/* ============================================
+   LANDSCAPE MODE (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) and (orientation: landscape) {
+  /* Reduce vertical padding in landscape */
+  .panel-content {
+    padding: 0.75rem;
+  }
+  
+  .chat-panel {
+    padding-bottom: 0.75rem;
+  }
+  
+  /* Horizontal layout for stats */
+  .summary-stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  /* Smaller modals in landscape */
+  .modal-content {
+    max-height: 90vh;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Larger tap targets for accessibility */
+  [role="button"]:not(.btn-xs) {
+    min-height: 48px;
+    min-width: 48px;
+  }
+  
+  /* Focus indicators for keyboard navigation */
+  *:focus-visible {
+    outline: 2px solid rgba(59, 130, 246, 0.8);
+    outline-offset: 2px;
+  }
+  
+  /* Skip links */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #3B82F6;
+    color: white;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    z-index: 100;
+  }
+  
+  .skip-link:focus {
+    top: 0;
+  }
+}
+
+/* ============================================
+   DARK MODE ADJUSTMENTS (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  /* Slightly lighter backgrounds for better OLED contrast */
+  body {
+    background: #0A0F1E;
+  }
+  
+  .panel-bg {
+    background: rgba(20, 27, 46, 0.9);
+  }
+  
+  /* Reduce white text brightness for eye comfort */
+  .text-white {
+    color: rgba(249, 250, 251, 0.95);
+  }
+}
+
+/* ============================================
+   RESPONSIVE TABLES (Mobile)
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Convert tables to cards on mobile */
+  table {
+    display: block;
+  }
+  
+  thead {
+    display: none;
+  }
+  
+  tbody {
+    display: block;
+  }
+  
+  tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    background: rgba(20, 27, 46, 0.5);
+  }
+  
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border: none;
+  }
+  
+  td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: rgba(156, 163, 175, 1);
+  }
+}
+
+/* ============================================
+   PULL TO REFRESH
+   ============================================ */
+
+@media (max-width: 768px) {
+  .pull-to-refresh {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .pull-indicator {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: top 0.3s;
+  }
+  
+  .pull-to-refresh.pulling .pull-indicator {
+    top: 10px;
+  }
+}

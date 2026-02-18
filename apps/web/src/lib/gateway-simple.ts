@@ -16,6 +16,7 @@ export class GatewayClient {
   private url: string = '';
   private reconnectTimer: number | null = null;
   private messageId = 0;
+  private authenticated = false;
   private pendingRequests = new Map<number, { resolve: (data: any) => void; reject: (err: any) => void }>();
   
   private listeners: {
@@ -40,11 +41,7 @@ export class GatewayClient {
       this.ws = new WebSocket(this.url);
 
       this.ws.onopen = () => {
-        console.log('[Gateway] Connected');
-        this.emit('connectionChange', 'connected');
-        // Subscribe to chat events and system presence
-        this.subscribeToEvents();
-        this.fetchSessions();
+        console.log('[Gateway] WebSocket opened, waiting for auth...');
       };
 
       this.ws.onmessage = (event) => {
@@ -62,6 +59,7 @@ export class GatewayClient {
 
       this.ws.onclose = () => {
         console.log('[Gateway] Disconnected');
+        this.authenticated = false;
         this.emit('connectionChange', 'disconnected');
         this.scheduleReconnect();
       };
@@ -81,20 +79,57 @@ export class GatewayClient {
     }, 3000);
   }
 
-  private subscribeToEvents() {
-    // Subscribe to chat events
-    this.call('chat.subscribe', {});
+  private async handleAuthChallenge(payload: any) {
+    console.log('[Gateway] Handling auth challenge');
     
-    // Subscribe to approval events
-    this.call('approvals.subscribe', {});
+    // For local connections, we just respond to the challenge
+    // The Gateway will auto-approve localhost connections
+    try {
+      const response = {
+        type: 'connect.response',
+        payload: {
+          nonce: payload.nonce,
+          // For localhost, no auth needed
+          deviceId: 'sint-dashboard-' + Date.now(),
+          deviceName: 'SINT Dashboard',
+          deviceType: 'browser'
+        }
+      };
+      
+      this.ws?.send(JSON.stringify(response));
+      console.log('[Gateway] Sent auth response');
+    } catch (err) {
+      console.error('[Gateway] Auth failed:', err);
+    }
+  }
+
+  private handleAuthSuccess() {
+    console.log('[Gateway] Authenticated successfully');
+    this.authenticated = true;
+    this.emit('connectionChange', 'connected');
+    
+    // Now we can subscribe and fetch data
+    this.subscribeToEvents();
+    this.fetchSessions();
+  }
+
+  private subscribeToEvents() {
+    console.log('[Gateway] Subscribing to events...');
+    // Subscribe to chat events
+    this.call('chat.subscribe', {}).catch(err => {
+      console.log('[Gateway] Chat subscribe not available:', err);
+    });
   }
 
   private async fetchSessions() {
     try {
+      console.log('[Gateway] Fetching sessions...');
       const response = await this.call('sessions.list', { 
         activeMinutes: 60,
         limit: 50 
       });
+      
+      console.log('[Gateway] Sessions response:', response);
       
       if (response.sessions) {
         // Convert sessions to agents
@@ -106,6 +141,7 @@ export class GatewayClient {
           cost: this.calculateSessionCost(session)
         }));
         
+        console.log('[Gateway] Emitting agents:', agents);
         this.emit('agentsUpdate', agents);
       }
     } catch (err) {
@@ -142,6 +178,25 @@ export class GatewayClient {
   }
 
   private handleMessage(data: any) {
+    console.log('[Gateway] Received:', data.type || data.method);
+    
+    // Handle auth flow
+    if (data.type === 'event' && data.event === 'connect.challenge') {
+      this.handleAuthChallenge(data.payload);
+      return;
+    }
+    
+    if (data.type === 'event' && data.event === 'connect.ok') {
+      this.handleAuthSuccess();
+      return;
+    }
+    
+    if (data.type === 'event' && data.event === 'connect.error') {
+      console.error('[Gateway] Auth error:', data.payload);
+      this.emit('connectionChange', 'disconnected');
+      return;
+    }
+
     // Handle RPC responses
     if (typeof data.id === 'number' && this.pendingRequests.has(data.id)) {
       const pending = this.pendingRequests.get(data.id)!;
@@ -226,6 +281,11 @@ export class GatewayClient {
         return;
       }
 
+      if (!this.authenticated && method !== 'connect.response') {
+        reject(new Error('Not authenticated'));
+        return;
+      }
+
       const id = ++this.messageId;
       this.pendingRequests.set(id, { resolve, reject });
 
@@ -236,6 +296,7 @@ export class GatewayClient {
         params
       };
 
+      console.log('[Gateway] Sending:', method);
       this.ws.send(JSON.stringify(message));
 
       // Timeout after 30 seconds

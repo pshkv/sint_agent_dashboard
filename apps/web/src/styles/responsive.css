@@ -1,0 +1,112 @@
+/* Mobile-first responsive design */
+
+/* Base mobile styles (already mobile-first with Tailwind) */
+
+/* Tablet adjustments (md: 768px+) */
+@media (min-width: 768px) {
+  /* Nothing needed - Tailwind handles this */
+}
+
+/* Desktop adjustments (lg: 1024px+) */
+@media (min-width: 1024px) {
+  /* Nothing needed - Tailwind handles this */
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 767px) {
+  /* Larger touch targets on mobile */
+  button,
+  a,
+  input,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent zoom on input focus */
+  input,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Better spacing on mobile */
+  main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Stack header items on very small screens */
+  @media (max-width: 480px) {
+    header {
+      padding: 1rem;
+    }
+
+    header > div {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+
+  /* Full-width chat on mobile */
+  .chat-window {
+    height: calc(100vh - 300px);
+    min-height: 400px;
+  }
+
+  /* Adjust agent cards for mobile */
+  .agent-card {
+    padding: 1rem;
+  }
+
+  /* Activity log scrollable on mobile */
+  .activity-log {
+    max-height: 300px;
+  }
+}
+
+/* Print styles */
+@media print {
+  /* Hide interactive elements when printing */
+  button,
+  input,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ensure readable text */
+  body {
+    color: black;
+    background: white;
+  }
+
+  /* Page breaks */
+  section {
+    page-break-inside: avoid;
+  }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+  /* Optional: Add dark mode styles here */
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  /* Ensure good contrast */
+  button,
+  input {
+    border: 2px solid currentColor;
+  }
+}

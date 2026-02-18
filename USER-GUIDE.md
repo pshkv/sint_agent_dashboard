@@ -1,755 +1,406 @@
-# SINT Operator Dashboard - User Guide
+# SINT Agent Dashboard - User Guide
 
-**Mission Control for AI Agents**
+## What Is This?
 
-A production-ready control center for managing, monitoring, and orchestrating AI agents with real-time observability, approval gates, and cost tracking.
+A full-featured web dashboard for managing OpenClaw AI agents. Combines OpenClaw's official Control UI with enhanced value-add features:
 
----
-
-## Table of Contents
-
-1. [Getting Started](#getting-started)
-2. [Interface Overview](#interface-overview)
-3. [Core Features](#core-features)
-4. [Common Tasks](#common-tasks)
-5. [Mobile Guide](#mobile-guide)
-6. [Keyboard Shortcuts](#keyboard-shortcuts)
-7. [Tips & Tricks](#tips--tricks)
-8. [Troubleshooting](#troubleshooting)
-
----
+- **System Status Monitoring**: Real-time Gateway health checks
+- **Quick Actions**: Keyboard shortcuts and common commands
+- **Cost Tracking**: Model pricing, calculators, and saving tips
+- **Recent Activity**: View recent agents, sessions, and actions
+- **Help & Documentation**: Built-in guides and resource links
 
 ## Getting Started
 
-### First Launch
+### Prerequisites
+- OpenClaw Gateway running on `localhost:18789`
+- Node.js 18+ (for development)
 
-1. **Open the dashboard** in your browser
-2. **Choose your mode:**
-   - **Demo Mode (ON)** - Explore with mock data
-   - **Demo Mode (OFF)** - Connect to OpenClaw Gateway
+### Quick Start
 
-### Interface Modes
+```bash
+# Clone the repository
+git clone https://github.com/pshkv/sint_agent_dashboard
+cd sint_agent_dashboard
 
-**Desktop (3-Panel Layout):**
-- **Left Panel:** Agent Registry & Integrations
-- **Center Panel:** Chat, Canvas, Workflow tabs
-- **Right Panel:** Metrics, Trace, Policy, Audit, Memory tabs
+# Install dependencies
+npm install
 
-**Mobile (Single Panel + Bottom Nav):**
-- **Agents:** Agent registry and status
-- **Control:** Chat, Canvas, Workflow
-- **Metrics:** Metrics, Trace, Policy, Audit, Memory
-
----
-
-## Interface Overview
-
-### Desktop Navigation
-
-```
-┌─────────────┬──────────────────┬─────────────┐
-│   AGENTS    │     CONTROL      │   METRICS   │
-│             │                  │             │
-│ • Status    │ Tabs:            │ Tabs:       │
-│ • Stats     │ • Chat 💬        │ • Metrics 📊│
-│ • Integr.   │ • Canvas 🎨      │ • Trace 🔍  │
-│             │ • Workflow 🔀    │ • Policy 🛡️ │
-│             │                  │ • Audit 📋  │
-│             │                  │ • Memory 🧠 │
-└─────────────┴──────────────────┴─────────────┘
+# Start development server
+npm run dev
 ```
 
-**Toggle Panels:**
-- Bottom-left: "◀ Agents" / "▶ Agents" button
-- Bottom-right: "Trace ▶" / "Trace ◀" button
-
-### Mobile Navigation
-
-**Bottom Nav Bar:**
-- 👥 **Agents** - Agent registry
-- 💬 **Control** - Main control panel
-- 📊 **Metrics** - Analytics & monitoring
-
-**Gestures:**
-- **Swipe left/right** - Switch between panels
-- **Pull down** - Refresh (where supported)
-- **Tap & hold** - Context menus (coming soon)
-
----
-
-## Core Features
-
-### 1. Agent Registry (Left Panel / Agents Tab)
-
-**What It Shows:**
-- Active agents and their status (🟢 online, 🟡 idle, 🔴 offline)
-- Quick stats (tasks completed, avg response time, success rate, total cost)
-- Integrated tools (8 integrations: Web Search, Memory, Code Exec, etc.)
-
-**Actions:**
-- Click agent name → View details
-- Monitor real-time status changes
-- Track performance metrics
-
----
-
-### 2. Chat Panel (Center Panel → Chat Tab)
-
-**Send Messages:**
-1. Type in the bottom input field
-2. Press Enter or click "Send"
-3. Watch agent respond with streaming text
-
-**Search Conversations:**
-1. Click search icon at top
-2. Enter search query
-3. Apply filters:
-   - **Role:** User / Assistant / System
-   - **Date Range:** Today / Week / Month / All
-   - **Tool Calls:** With Tools / Without Tools
-4. View filtered results with count
-
-**View Threads:**
-1. Click "Threads" toggle at top
-2. Browse conversation threads
-3. Click thread to load messages
-4. See message count, duration, participants, tags
-
-**Export Chat:**
-1. Click "Export" button
-2. Choose format: Markdown / JSON / Text
-3. Select options:
-   - Include timestamps ✓
-   - Include tool calls ✓
-   - Include system messages
-4. Choose date range: All Time / Current Session
-5. Click "Export {FORMAT}"
-6. File downloads automatically
-
-**Approval Gates:**
-- When agent requests approval, gate appears above input
-- Review action details
-- Click "Approve" or "Reject"
-- Optional: Add reason/note
-
----
-
-### 3. Workflow Builder (Center Panel → Workflow Tab)
-
-**View Mode:**
-- See real-time execution flow
-- Click nodes for details
-- Monitor agent progress
-
-**Build Mode:**
-1. Click "Build" toggle at top
-2. Add nodes from left palette:
-   - 🤖 **Agent** - AI agent execution
-   - 🔀 **Condition** - Conditional routing
-   - ⚡ **Parallel** - Concurrent execution
-   - ➡️ **Sequential** - Chain/merge operations
-3. Drag nodes to position
-4. Click node to edit properties
-5. Connect nodes (edges)
-6. Click "Save" to store workflow
-7. Click "Run" to execute
-
-**Use Templates:**
-1. Click "Templates" button (Build mode)
-2. Browse categories: Basic / Advanced / Research
-3. Select template:
-   - **Sequential Agents** - Linear chain
-   - **Parallel Processing** - Concurrent tasks
-   - **Conditional Routing** - Dynamic routing
-   - **Research Pipeline** - Multi-source research
-4. Template loads in builder
-5. Customize as needed
-6. Save & run
-
-**Export/Import:**
-- **Export:** Click download icon → JSON file saves
-- **Import:** Click upload icon → select JSON file
-
----
-
-### 4. Metrics Dashboard (Right Panel → Metrics Tab)
-
-**Summary Cards:**
-- **Total Cost** - All-time spending
-- **Avg Duration** - Response times
-- **Success Rate** - Task completion %
-- **Total Time** - Cumulative execution
-
-**Charts:**
-1. **Cost Over Time** - Line chart (1h/24h/7d/30d buckets)
-2. **Cost by Model** - Bar chart breakdown
-3. **Cost by Agent** - Distribution
-4. **Response Time** - Histogram
-5. **Budget Status** - Gauge with limits
-6. **Top Expensive Operations** - Rankings
-
-**Actions:**
-- Click time range buttons to change granularity
-- Hover charts for detailed tooltips
-- Monitor budget limits
-
----
-
-### 5. Trace View (Right Panel → Trace Tab)
-
-**Tree View (Default):**
-- Hierarchical display: Session → Turn → Span
-- Color-coded status: 🟢 Success, 🔴 Error, 🟡 Pending
-- Click expand/collapse arrows
-- Shows duration, cost, status
-
-**Timeline View:**
-1. Click "Timeline" toggle at top
-2. See horizontal bar chart
-3. Bars scaled by duration
-4. Click bar for detailed info
-
-**Filters:**
-1. Click filter icon
-2. Apply filters:
-   - **Status:** Success / Error / Running / Pending
-   - **Tools:** llm_call / tool_exec / memory_search / etc.
-   - **Search:** Text search in names/models/errors
-   - **Cost Range:** Min/max slider
-   - **Time Range:** All / Today / Week / Month
-3. View filtered results with count
-4. Click "Reset" to clear
-
-**Summary Stats:**
-- Total Cost
-- Average Duration
-- Success Rate
-- Most Expensive / Slowest operations
-
-**Export:**
-- Click "Export" button
-- Downloads JSON with all trace data
-
----
-
-### 6. Policy Editor (Right Panel → Policy Tab)
-
-**View Policies:**
-- See active rules with priority
-- Enable/disable toggle switches
-- View violation counts
-
-**Add Policy from Template:**
-1. Click "Templates" button
-2. Browse 8 templates:
-   - 💰 Daily Budget Limit
-   - 🔒 Shell Command Approval
-   - 💎 Expensive Operation Approval
-   - 🛡️ Production Protection
-   - 👁️ Read-Only Mode
-   - ✅ Model Whitelist
-   - ⚡ Auto-Approve Cheap Operations
-   - 🕐 Business Hours Only
-3. Click template to load
-4. Customize settings
-5. Click "Save"
-
-**Create Custom Policy:**
-1. Click "+ New Policy" button
-2. Enter policy name
-3. Set priority (0-100, higher = first)
-4. Add conditions:
-   - **Cost:** Greater than / Less than amount
-   - **Tool:** Specific tool name
-   - **Model:** Model whitelist
-   - **Time:** Business hours
-   - **Agent:** Agent ID
-5. Choose action:
-   - **Allow** - Permit automatically
-   - **Deny** - Block automatically
-   - **Require Approval** - Gate for human review
-6. Click "Save"
-
-**Edit/Delete:**
-- Click policy card to edit
-- Click trash icon to delete
-- Changes apply immediately
-
----
-
-### 7. Memory Inspector (Right Panel → Memory Tab)
-
-**Browse Memory Tiers:**
-- **M0 (Blue)** - Ephemeral (current session)
-- **M1 (Green)** - Session (persistent)
-- **M2 (Yellow)** - Agent (long-term)
-- **M3 (Purple)** - Archive (inactive)
-
-**Search Memories:**
-1. Type in search box
-2. Click filter icon for advanced options:
-   - **Memory Tiers:** M0 / M1 / M2 / M3
-   - **Time Range:** 1h / 24h / 7d / 30d / All
-   - **Promotion Status:** All / Promoted / Not Promoted
-3. Click "Apply Filters"
-4. View results with count
-
-**View Timeline:**
-1. Click any memory entry
-2. See promotion history:
-   - 🟢 Create events
-   - 🔵 Promotions (M0→M1→M2)
-   - 🟡 Access events
-   - ⚪ Archive actions
-3. View timestamps, reasons, access counts
-4. Click "Back to list" to return
-
-**Toggle Views:**
-- Click "List View" / "Timeline View" button
-- Switch between list and timeline visualization
-
----
-
-### 8. Audit Log (Right Panel → Audit Tab)
-
-**View Activity:**
-- Chronological log of all actions
-- Shows: Action, Tool, Status, Cost, Timestamp
-- Hash-chained for integrity
-
-**Export:**
-- Click "Export CSV" button
-- Downloads full audit log
-
----
-
-## Common Tasks
-
-### Task 1: Monitor Agent Performance
-
-**Steps:**
-1. Open **Agent Registry** (left panel / Agents tab)
-2. View quick stats for each agent
-3. Switch to **Metrics** tab (right panel)
-4. Review charts and cost breakdown
-5. Check success rates and response times
-
-**What to Look For:**
-- ⚠️ High costs (red budget gauge)
-- 🔴 Low success rates (<80%)
-- ⏱️ Slow response times (>10s avg)
-
----
-
-### Task 2: Debug Failed Operations
-
-**Steps:**
-1. Go to **Trace** tab (right panel)
-2. Filter by Status: "Error"
-3. Expand failed traces in tree view
-4. Click span to see details
-5. Check error message and input/output
-6. Switch to **Audit** tab for full history
-
-**Quick Tip:**
-- Use Timeline view to see where execution stalled
-- Check cost to identify expensive failed operations
-
----
-
-### Task 3: Search Past Conversations
-
-**Steps:**
-1. Go to **Chat** tab (center panel)
-2. Click search icon at top
-3. Enter search query (e.g., "build dashboard")
-4. Apply filters:
-   - Date Range: "Week"
-   - Tool Calls: "With Tools"
-5. Browse results
-6. Click message to see context
-
-**Export Results:**
-- With filters active, click "Export"
-- Only filtered messages will be exported
-
----
-
-### Task 4: Create Multi-Agent Workflow
-
-**Steps:**
-1. Go to **Workflow** tab (center panel)
-2. Click "Build" mode toggle
-3. Click "Templates" button
-4. Select "Research Pipeline" template
-5. Customize:
-   - Edit node labels
-   - Change agent IDs in properties
-   - Adjust positions by dragging
-6. Click "Save" (gives workflow name)
-7. Click "Run" to execute
-8. Switch to "View" mode to watch progress
-
-**From Scratch:**
-1. Enter Build mode
-2. Add nodes from palette
-3. Configure each node (click → properties panel)
-4. Connect nodes with edges
-5. Save & run
-
----
-
-### Task 5: Set Budget Limits
-
-**Steps:**
-1. Go to **Policy** tab (right panel)
-2. Click "Templates" button
-3. Select "💰 Daily Budget Limit"
-4. Set limit (e.g., $10.00)
-5. Choose action: "Require Approval"
-6. Click "Save"
-7. Policy now active (toggle ON)
-
-**Monitor:**
-- Switch to **Metrics** tab
-- Check "Budget Status" gauge
-- Violations shown in Policy tab
-
----
-
-### Task 6: Export Chat for Analysis
-
-**Steps:**
-1. Go to **Chat** tab
-2. Optionally filter messages (date, role, tools)
-3. Click "Export" button
-4. Select format:
-   - **Markdown** - Human-readable with headers
-   - **JSON** - Structured data with metadata
-   - **Text** - Plain text with separators
-5. Configure options:
-   - ✓ Include timestamps
-   - ✓ Include tool calls
-   - Include system messages (optional)
-6. Choose date range: "All Time"
-7. Click "Export MARKDOWN"
-8. File downloads: `chat-export-2026-02-14.md`
-
----
-
-### Task 7: Review Memory Promotions
-
-**Steps:**
-1. Go to **Memory** tab (right panel)
-2. Click filter icon
-3. Select:
-   - Memory Tiers: M1, M2 (uncheck M0, M3)
-   - Promotion Status: "Promoted"
-4. Click "Apply Filters"
-5. View promoted memories
-6. Click any entry to see timeline
-7. Review promotion history:
-   - When promoted (timestamp)
-   - Why promoted (reason)
-   - Access count
-
-**What This Tells You:**
-- Which memories are important (promoted)
-- How agents are learning (M0→M1→M2 progression)
-- Access patterns (frequently used memories)
-
----
-
-## Mobile Guide
-
-### Navigation
-
-**Bottom Nav Bar:**
-- Tap icons to switch panels
-- Active panel has blue color + indicator dot
-- Top indicator line shows current panel
-
-**Gestures:**
-- **Swipe left/right** - Quick panel switching
-- **Pull down** - Refresh lists (where supported)
-- **Long press** - Context menus (coming soon)
-
-### Mobile-Optimized Features
-
-**Chat:**
-- Larger message bubbles
-- Floating search panel (slides in from top)
-- Full-screen filters and export modal
-- Keyboard-aware input (no zoom)
-
-**Workflow:**
-- Horizontal node palette (scroll left/right)
-- Touch-friendly drag-and-drop
-- Full-screen properties panel (slides up)
-- Full-screen template library
-
-**Traces:**
-- Compact tree view
-- Horizontal scroll timeline
-- Bottom drawer for filters
-- Two-finger tap on cards (quick actions)
-
-**Memory:**
-- Vertical-optimized timeline
-- Full-screen filter modal
-- Pull-to-refresh support
-- Swipe cards for quick actions (coming soon)
-
-### Mobile Tips
-
-✅ **Use landscape mode** for workflow builder  
-✅ **Two-finger pinch** to zoom canvas (coming soon)  
-✅ **Long press** agent cards for quick actions (coming soon)  
-✅ **Swipe cards left** to archive/delete (coming soon)  
-✅ **Pull down** to refresh traces and metrics  
-
----
+Dashboard will be available at: **http://localhost:5173**
+
+### Production Build
+
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Features
+
+### 1. Tabbed Sidebar
+
+Five organized tabs for different workflows:
+
+#### 📊 Overview
+- **System Status**: Gateway connection, WebSocket status, location
+- **Recent Activity**: Latest agents, sessions, and cron jobs
+- Live health monitoring with color-coded status indicators
+
+#### ⚡ Actions
+- **Quick Actions**: Common keyboard shortcuts
+- One-click access to:
+  - Search (`/`)
+  - New Chat (`n`)
+  - Cron Jobs (`c`)
+  - Sessions (`s`)
+  - Devices (`d`)
+  - Usage (`u`)
+  - Logs (`l`)
+  - Help (`?`)
+
+#### 💰 Costs
+- **Model Cost Reference**: Pricing for GPT-4o, Claude, Gemini
+- **Cost Saving Tips**: Practical advice for reducing API spend
+- **Quick Calculator**: Estimate costs for common token amounts
+- Real-time cost breakdowns (when WebSocket connects)
+
+#### 📈 Activity
+- **Recent Activity Feed**: Agents, sessions, cron jobs
+- **Filtering**: View all, agents only, or sessions only
+- **Status Indicators**: Active (green), idle (gray), error (red)
+- Timestamps for each activity
+
+#### ❓ Help
+- **Quick Tips**: Best practices and workflow suggestions
+- **Documentation Links**: OpenClaw docs, GitHub, Discord, ClawHub
+- **Dashboard Info**: Current mode, protocol version
+- **Protocol Notes**: WebSocket implementation status
+
+### 2. Main Control UI
+
+Embedded OpenClaw Control UI provides:
+- Full chat interface with your agents
+- Session management
+- Cron job scheduling
+- Device pairing
+- Config editor
+- Live logs
+- And all other official OpenClaw features
+
+### 3. Header Features
+
+- **Toggle Info Banner**: Show/hide the info banner
+- **Toggle Sidebar**: Collapse sidebar for full-width Control UI
+- **New Tab**: Open Control UI in separate browser tab
+
+### 4. Footer
+
+- Version info
+- Status indicator (online/offline)
+- Links to GitHub and OpenClaw docs
 
 ## Keyboard Shortcuts
 
-### Global
+These work in the embedded Control UI:
 
-- **Cmd/Ctrl + K** - Quick search (coming soon)
-- **Cmd/Ctrl + /** - Show shortcuts help
-- **Esc** - Close modals/panels
+- `/` - Search sessions, agents, or commands
+- `?` - Show help and shortcuts
+- `n` - Start new chat session
+- `c` - View cron jobs
+- `s` - List all sessions
+- `d` - Manage paired devices
+- `u` - View usage and costs
+- `l` - Open live log viewer
 
-### Navigation
+## Architecture
 
-- **1** - Switch to Chat tab
-- **2** - Switch to Canvas tab
-- **3** - Switch to Workflow tab
-- **Cmd/Ctrl + [** - Previous tab
-- **Cmd/Ctrl + ]** - Next tab
+### Hybrid Approach
 
-### Chat
+The dashboard uses a **hybrid architecture**:
 
-- **Cmd/Ctrl + Enter** - Send message
-- **Cmd/Ctrl + F** - Open search
-- **Cmd/Ctrl + E** - Export chat
+1. **Official Control UI** (embedded via iframe)
+   - Proven, stable, full-featured
+   - Direct WebSocket connection to Gateway
+   - All official OpenClaw functionality
 
-### Workflow
+2. **Value-Add Components** (React sidebar)
+   - Quick actions and shortcuts
+   - Cost tracking and tips
+   - System status monitoring
+   - Help and documentation
 
-- **Space + Drag** - Pan canvas
-- **Del / Backspace** - Delete selected node
-- **Cmd/Ctrl + D** - Duplicate node
-- **Cmd/Ctrl + S** - Save workflow
-- **Cmd/Ctrl + R** - Run workflow
+**Why hybrid?**
+- Delivers working dashboard NOW
+- Avoids reimplementing complex WebSocket protocol
+- Adds unique value without duplication
+- Can migrate to full custom implementation later if needed
 
-### Trace
+### Technical Stack
 
-- **Cmd/Ctrl + T** - Toggle tree/timeline view
-- **Cmd/Ctrl + F** - Open filters
-- **Cmd/Ctrl + E** - Export traces
+- **Frontend**: React 18 + TypeScript
+- **Styling**: Tailwind CSS
+- **Build**: Vite
+- **Control UI**: OpenClaw official (iframe embed)
+- **Connection**: Gateway WebSocket (via Control UI)
 
----
+## WebSocket Protocol Status
 
-## Tips & Tricks
+### Current Implementation: Iframe
 
-### Performance Optimization
+The dashboard embeds OpenClaw's official Control UI, which handles the full WebSocket connection.
 
-💡 **Reduce cost by:**
-- Setting budget policies (Policy tab → Daily Budget Limit)
-- Using cheaper models (check Metrics → Cost by Model)
-- Auto-approving low-cost operations (<$0.01)
+### Future: Direct WebSocket Client
 
-💡 **Speed up agents by:**
-- Using parallel workflows (Workflow → Parallel Processing template)
-- Caching frequent queries (Memory M1/M2 tiers)
-- Monitoring slow operations (Trace → Summary Stats)
+A custom WebSocket client is planned but requires:
 
-### Workflow Best Practices
+1. **Ed25519 Cryptography**
+   - Generate keypair
+   - Store in localStorage
+   - Sign connection payload
 
-💡 **Start with templates:**
-- Browse 4 pre-built workflows
-- Customize for your use case
-- Save as new template (export JSON)
+2. **Proper Handshake Format**
+   ```typescript
+   {
+     type: "req",
+     method: "connect",
+     params: {
+       minProtocol: 3,
+       device: {
+         id: deviceId,
+         publicKey: base64,
+         signature: base64Ed25519,  // Critical!
+         signedAt: timestamp
+       },
+       // ... more fields
+     }
+   }
+   ```
 
-💡 **Name nodes clearly:**
-- "Research Agent" > "Agent 1"
-- Include purpose: "Web Search", "Data Validator"
-- Use emojis for quick visual identification
+3. **Estimated Work**: ~5 hours
 
-💡 **Use conditions wisely:**
-- Route urgent tasks to faster agents
-- Fallback to cheaper models for simple tasks
-- Split complex workflows into smaller subflows
+**Decision**: Ship working hybrid solution now, implement direct WebSocket later if valuable.
 
-### Memory Management
+See `WEBSOCKET-PROTOCOL-NOTES.md` for complete technical details.
 
-💡 **Understand tiers:**
-- **M0** - Temporary, current session only
-- **M1** - Important, persists across sessions
-- **M2** - Core knowledge, long-term storage
-- **M3** - Archived, rarely accessed
+## Customization
 
-💡 **Search effectively:**
-- Use time ranges to find recent memories
-- Filter by tier to find core knowledge (M2)
-- Check promoted memories for important patterns
+### Branding
 
-### Chat Organization
+Edit `apps/web/src/App-Final.tsx`:
 
-💡 **Use threads:**
-- Group related conversations
-- Track multi-step projects
-- Review conversation history
+```tsx
+// Change header title
+<h1 className="text-2xl font-bold">YOUR NAME</h1>
 
-💡 **Export regularly:**
-- Weekly exports for record-keeping
-- Markdown for human reading
-- JSON for analysis/processing
+// Change subtitle
+<span className="text-xs text-blue-200">Your Tagline</span>
+```
 
-### Policy Strategy
+### Colors
 
-💡 **Layer policies by priority:**
-1. **Priority 100** - Emergency stop (daily budget limit)
-2. **Priority 50** - Approval gates (expensive ops, shell commands)
-3. **Priority 10** - Auto-approve (cheap, read-only ops)
+Tailwind classes in components use blue theme. To change:
 
-💡 **Test policies in demo mode:**
-- Create policy
-- Trigger actions
-- Verify behavior
-- Adjust before production
+```tsx
+// Replace all instances of:
+bg-blue-600 → bg-purple-600
+text-blue-600 → text-purple-600
+// etc.
+```
 
----
+### Sidebar Tabs
+
+Add/remove tabs in `App-Final.tsx`:
+
+```tsx
+const tabs = [
+  { id: 'overview', label: 'Overview', icon: '📊' },
+  // Add your tab here:
+  { id: 'custom', label: 'Custom', icon: '🎨' },
+];
+
+// Add corresponding content:
+{activeTab === 'custom' && <YourComponent />}
+```
+
+### Mock Data
+
+Components use mock data (placeholders). When WebSocket client is ready:
+
+1. Remove mock data from components
+2. Add WebSocket hooks to fetch real data
+3. Update state with live information
+
+Example in `RecentActivity.tsx`:
+```tsx
+// Current:
+const MOCK_ACTIVITY: ActivityItem[] = [...]
+
+// Future:
+const [activity, setActivity] = useState<ActivityItem[]>([]);
+useWebSocket({
+  onActivity: (data) => setActivity(data)
+});
+```
 
 ## Troubleshooting
 
-### Issue: Dashboard Not Loading
+### Dashboard Won't Load
 
-**Symptoms:** Blank screen, spinning loader
+1. Check Gateway is running:
+   ```bash
+   openclaw status
+   ```
 
-**Solutions:**
-1. Check browser console (F12) for errors
-2. Refresh page (Cmd/Ctrl + R)
-3. Clear cache and reload (Cmd/Ctrl + Shift + R)
-4. Try incognito/private mode
-5. Check if server is running
+2. Verify URL:
+   - Dashboard: http://localhost:5173
+   - Gateway: http://127.0.0.1:18789
+
+3. Check browser console for errors
+
+### Control UI Shows "Connection Failed"
+
+1. Gateway might not be running:
+   ```bash
+   openclaw gateway start
+   ```
+
+2. Check Gateway logs:
+   ```bash
+   openclaw logs
+   ```
+
+3. Try opening Control UI directly: http://127.0.0.1:18789
+
+### Sidebar Not Showing
+
+1. Click "▶️ Sidebar" button in header
+2. Check browser zoom level (should be 100%)
+3. Try wider browser window
+
+### Components Show Mock Data
+
+This is expected! Real data requires WebSocket client implementation (future work). Mock data demonstrates the UI.
+
+## Development
+
+### Project Structure
+
+```
+sint-dashboard/
+├── apps/
+│   └── web/
+│       ├── src/
+│       │   ├── components/      # Sidebar widgets
+│       │   │   ├── QuickActions.tsx
+│       │   │   ├── SystemStatus.tsx
+│       │   │   ├── CostTracker.tsx
+│       │   │   ├── RecentActivity.tsx
+│       │   │   └── Documentation.tsx
+│       │   ├── App-Final.tsx    # Main dashboard
+│       │   ├── main.tsx         # Entry point
+│       │   └── index.css        # Global styles
+│       └── index.html
+├── WEBSOCKET-PROTOCOL-NOTES.md  # Protocol research
+├── SPRINT-STATUS-*.md           # Development logs
+└── package.json
+```
+
+### Adding New Components
+
+1. Create component in `apps/web/src/components/`
+2. Import in `App-Final.tsx`
+3. Add to appropriate sidebar tab
+4. Style with Tailwind CSS
+
+### Testing Changes
+
+```bash
+# Watch mode (auto-reload on file changes)
+npm run dev
+
+# Build and check for errors
+npm run build
+
+# Type checking
+npm run type-check  # if configured
+```
+
+## Deployment
+
+### Option 1: Static Host
+
+Build and deploy to any static host:
+
+```bash
+npm run build
+# Deploy ./apps/web/dist to:
+# - Vercel
+# - Netlify
+# - Cloudflare Pages
+# - GitHub Pages
+# - etc.
+```
+
+**Important**: Ensure Gateway is accessible from deployed location (VPN, SSH tunnel, or public proxy).
+
+### Option 2: Local Only
+
+Keep dashboard on localhost, access via:
+- http://localhost:5173 (dev)
+- http://localhost:4173 (preview)
+
+### Option 3: Self-Hosted
+
+Use nginx/Apache to serve the build:
+
+```nginx
+server {
+  listen 80;
+  server_name dashboard.example.com;
+  root /path/to/dist;
+  index index.html;
+  
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
+```
+
+## Contributing
+
+This is a personal project, but suggestions welcome!
+
+1. Fork the repository
+2. Create feature branch
+3. Make changes
+4. Test thoroughly
+5. Submit pull request
+
+## License
+
+[Your License Here]
+
+## Credits
+
+- **OpenClaw**: https://github.com/openclaw/openclaw
+- **Built by**: Illia Pashkov (@pshkv)
+- **Company**: SINT (agentic AI)
+
+## Support
+
+- **GitHub Issues**: https://github.com/pshkv/sint_agent_dashboard/issues
+- **OpenClaw Discord**: https://discord.com/invite/clawd
+- **OpenClaw Docs**: https://docs.openclaw.ai
 
 ---
 
-### Issue: Gateway Connection Failed
-
-**Symptoms:** 🔴 Disconnected status, "Demo Mode ON" forced
-
-**Solutions:**
-1. Check OpenClaw Gateway is running: `openclaw status`
-2. Verify Gateway URL: `ws://127.0.0.1:18789`
-3. Check firewall settings (allow port 18789)
-4. Restart Gateway: `openclaw gateway restart`
-5. Toggle Demo Mode OFF to retry connection
-
----
-
-### Issue: Chat Messages Not Sending
-
-**Symptoms:** Input stuck, no response from agent
-
-**Solutions:**
-1. Check connection status (top of chat panel)
-2. Verify agent is online (Agent Registry → status)
-3. Check for pending approval gates
-4. Review trace for errors (Trace tab → filter by Error)
-5. Check budget limits (Policy tab → violations)
-
----
-
-### Issue: Workflow Not Running
-
-**Symptoms:** "Run" button does nothing, nodes not executing
-
-**Solutions:**
-1. Verify all nodes have required fields (agent IDs, etc.)
-2. Check for disconnected nodes (no edges)
-3. Save workflow before running
-4. Switch to View mode to see execution
-5. Check Gateway connection (workflow requires Gateway)
-
----
-
-### Issue: Mobile Layout Broken
-
-**Symptoms:** Panels overlapping, bottom nav not visible
-
-**Solutions:**
-1. Refresh page
-2. Rotate device (portrait → landscape → portrait)
-3. Clear browser cache
-4. Update browser to latest version
-5. Try different browser (Safari → Chrome)
-
----
-
-### Issue: Export Not Working
-
-**Symptoms:** Export button does nothing, no download
-
-**Solutions:**
-1. Check browser download settings
-2. Allow pop-ups for this site
-3. Try different export format (Markdown → JSON)
-4. Check browser console for errors
-5. Right-click export button → "Save link as..."
-
----
-
-## Advanced Features
-
-### Custom Styling (Coming Soon)
-
-- Theme customization
-- Custom color schemes
-- Layout preferences
-
-### Collaboration (Coming Soon)
-
-- Multi-user support
-- Shared workflows
-- Team dashboards
-
-### Integrations (Coming Soon)
-
-- Slack notifications
-- Email alerts
-- Webhook triggers
-
-### Automation (Coming Soon)
-
-- Scheduled workflows
-- Auto-scaling policies
-- Smart routing
-
----
-
-## Need Help?
-
-**Documentation:**
-- Technical docs: `OPERATOR-README.md`
-- Feature docs: `*-COMPLETE.md` files
-- Architecture: `DAY-1-COMPLETE.md`
-
-**Community:**
-- Discord: https://discord.com/invite/clawd
-- GitHub: https://github.com/openclaw/openclaw
-- Docs: https://docs.openclaw.ai
-
-**Support:**
-- Report bugs: GitHub Issues
-- Feature requests: Discord #feature-requests
-- Questions: Discord #help
-
----
-
-**Version:** 1.0.0  
-**Last Updated:** 2026-02-14  
-**License:** MIT
-
----
-
-Built with ❤️ for AI Agent Operators
+**Version**: 1.0.0  
+**Status**: Production Ready (Hybrid Mode)  
+**Last Updated**: 2026-02-18

@@ -1,7 +1,6 @@
 {
   "name": "@sint-dashboard/api",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "start": "node dist/index.js",
     "dev": "npm run db:push && tsx watch src/index.ts",

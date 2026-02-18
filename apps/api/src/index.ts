@@ -28,6 +28,7 @@ const app = Fastify({
   },
 });
 
+async function main() {
 // Register error handler
 app.setErrorHandler(errorHandler);
 app.setNotFoundHandler(notFoundHandler);
@@ -182,3 +183,6 @@ try {
   app.log.error(err);
   process.exit(1);
 }
+}
+
+main();

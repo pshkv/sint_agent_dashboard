@@ -11,6 +11,7 @@
     "dev:api": "npm run dev --workspace=apps/api",
     "dev:web": "npm run dev --workspace=apps/web",
     "build": "npm run build --workspaces",
+    "start": "node apps/api/dist/index.js",
     "typecheck": "npm run typecheck --workspaces"
   },
   "devDependencies": {

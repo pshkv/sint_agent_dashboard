@@ -5,7 +5,7 @@ import { existsSync, mkdirSync } from 'fs';
 import { dirname } from 'path';
 
 // Use SQLite for both local and production (with persistent volume)
-const dbPath = process.env.DATABASE_PATH || '/data/sint_dashboard.db';
+const dbPath = process.env.DATABASE_PATH || './data/sint_dashboard.db';
 
 // Ensure data directory exists
 const dataDir = dirname(dbPath);
